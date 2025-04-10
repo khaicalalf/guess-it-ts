@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import myIndira from "../assets/image/indira.jpg";
+import myIndira from "../assets/image/member/indira.jpg";
 
 // const names = [
 //   "Freya Jayawardana",
@@ -10,11 +10,11 @@ import myIndira from "../assets/image/indira.jpg";
 // ];
 
 const names = [
-  { name: "Freya Jayawardana", gen: "gen 7", img: "-" },
+  { name: "Freya Jayawardana", gen: "gen 7", img: "myFreya" },
   { name: "Indira Seruni Putri", gen: "gen 10", img: myIndira },
-  { name: "Cynthia Yaputera", gen: "gen 11", img: "-" },
-  { name: "Michie Alexandria", gen: "gen 11", img: "-" },
-  { name: "Mikaela Kusjanto", gen: "gen 13", img: "-" },
+  { name: "Cynthia Yaputera", gen: "gen 11", img: "myThya" },
+  { name: "Michie Alexandria", gen: "gen 11", img: "myMichie" },
+  { name: "Mikaela Kusjanto", gen: "gen 13", img: "myMika" },
 ];
 
 const GuessIt = () => {
@@ -131,7 +131,7 @@ const GuessIt = () => {
 
   return (
     <div className="align-center flex flex-col items-center justify-center p-4">
-      <h1 className="text-xl font-bold">Tebak Nama Member</h1>
+      <h1 className="text-xl font-bold italic mb-4">Save ur OShi!!!</h1>
       <div className="p-2 border border-base-300 rounded-box bg-base-200 space-y-2">
         <p>
           <strong>Sisa Percobaanmu :</strong>{" "}

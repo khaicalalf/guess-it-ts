@@ -3,3 +3,31 @@
   themes: light --default, abyss --prefersdark, cupcake, valentine, dracula,
     cyberpunk, forest, winter, caramellate;
 }
+
+.floating-hand {
+  animation: floatUpDown 2s ease-in-out infinite;
+}
+
+@keyframes floatUpDown {
+  0%,
+  100% {
+    transform: translate(0, -8%);
+  }
+  50% {
+    transform: translate(0, -12%);
+  }
+}
+
+.waves {
+  animation: wave 2s ease-in infinite;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
+  }
+}
