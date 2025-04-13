@@ -75,6 +75,14 @@ const WhatIs = () => {
                   </li>
                   <li className="list-row">
                     <div className="text-xl font-thin opacity-40 tabular-nums">
+                      🎗️ forgive me if there is a mistake in writing the name.
+                    </div>
+                    <p className="text-l font-semibold">
+                      all photo originally from the member's sns.
+                    </p>
+                  </li>
+                  <li className="list-row">
+                    <div className="text-xl font-thin opacity-40 tabular-nums">
                       🪭
                     </div>
                     <p className="text-l font-semibold">
