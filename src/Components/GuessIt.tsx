@@ -179,11 +179,11 @@ const GuessIt = () => {
       </form>
       <div className="p-2 border border-base-300 rounded-box bg-base-200 space-y-2">
         <p>
-          <strong>{oldLetterIsMatched}</strong>
+          <strong>{count > 0 ? `${oldLetterIsMatched}` : `${name}`}</strong>
         </p>
       </div>
       <button
-        className="btn-end btn text-lg text-warning p-4 mt-5 hidden"
+        className="btn-end btn text-lg bg-error text-base-200 p-4 mt-5 hidden"
         onClick={() => window.location.reload()}
       >
         reset
@@ -236,12 +236,16 @@ const GuessIt = () => {
       </dialog>
       <div className="alert-carefull toast toast-top toast-end hidden">
         <div className="alert alert-warning">
-          <span>Be Carefull!</span>
+          <span>
+            <strong>Be Carefull!</strong>
+          </span>
         </div>
       </div>
       <div className="alert-end toast toast-top toast-end hidden">
         <div className="alert alert-error">
-          <span>Ah crap!</span>
+          <span>
+            <strong>Ah crap!</strong>
+          </span>
         </div>
       </div>
     </div>
