@@ -50,7 +50,7 @@ const Theme = () => {
       }
     }
   };
-  console.log("random theme", randomTheme);
+  // console.log("random theme", randomTheme);
 
   return (
     <>
