@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import myIndira from "../assets/image/member/indira.jpg";
+import { toPng } from "html-to-image";
+import indira from "../assets/image/member/frame-indira.png";
+import frey from "../assets/image/member/frame-freya.png";
+import mich from "../assets/image/member/frame-mich.png";
+import mika from "../assets/image/member/frame-mika.png";
+import thya from "../assets/image/member/frame-thya.png";
 
 // const names = [
 //   "Freya Jayawardana",
@@ -10,28 +15,31 @@ import myIndira from "../assets/image/member/indira.jpg";
 // ];
 
 const names = [
-  { name: "Freya Jayawardana", gen: "gen 7", img: "myFreya" },
-  { name: "Indira Seruni Putri", gen: "gen 10", img: myIndira },
-  { name: "Cynthia Yaputera", gen: "gen 11", img: "myThya" },
-  { name: "Michie Alexandria", gen: "gen 11", img: "myMichie" },
-  { name: "Mikaela Kusjanto", gen: "gen 13", img: "myMika" },
+  { name: "Freya Jayawardana", gen: "gen 7", img: frey },
+  { name: "Indira Seruni Putri", gen: "gen 10", img: indira },
+  { name: "Cynthia Yaputera", gen: "gen 11", img: thya },
+  { name: "Michie Alexandra", gen: "gen 11", img: mich },
+  { name: "Mikaela Kusjanto", gen: "gen 13", img: mika },
 ];
 
 const GuessIt = () => {
-  const [answer, setAnswer] = useState("");
+  const [answer, setAnswer] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [image, setImage] = useState<string>("");
-  const [input, setInput] = useState("");
-  const [count, setCount] = useState(10);
+  const [input, setInput] = useState<string>("");
+  const [count, setCount] = useState(5);
   const [matchedSentence, setMatchedSentence] = useState<boolean>(false);
-  const [oldLetterIsMatched, setOldLetterIsMatched] = useState("");
-  const [newLetterIsMatched, setNewLetterIsMatched] = useState("");
-  const [currentLetterIsMatched, setCurrentLetterIsMatched] = useState("");
+  const [oldLetterIsMatched, setOldLetterIsMatched] = useState<string>("");
+  const [newLetterIsMatched, setNewLetterIsMatched] = useState<string>("");
+  const [currentLetterIsMatched, setCurrentLetterIsMatched] =
+    useState<string>("");
 
   // Pilih 1 nama secara acak saat pertama render
   useEffect(() => {
     const random = names[Math.floor(Math.random() * names.length)];
     setAnswer(random.name.toLowerCase());
     setImage(random.img);
+    setName(random.name);
     console.log("answer", random);
   }, []);
 
@@ -95,10 +103,15 @@ const GuessIt = () => {
     setInput("");
     //memberi notif percobaan
     if (count === 3) {
-      alert(`Hati - hati sisa kesempetanmu tinggal 2!`);
-    } else if (count === 0) {
-      alert("Kesempatanmu habis!");
-      return;
+      const alert = document.querySelector(".alert-carefull") as HTMLDivElement;
+      alert.classList.remove("hidden");
+    } else if (count <= 1) {
+      const alertEnd = document.querySelector(".alert-end") as HTMLDivElement;
+      alertEnd.classList.remove("hidden");
+      const buttonEnd = document.querySelector(".btn-end") as HTMLDivElement;
+      buttonEnd.classList.remove("hidden");
+      const alert = document.querySelector(".alert-carefull") as HTMLDivElement;
+      alert.classList.add("hidden");
     }
 
     //mengurangi nilai percobaan setelah submit
@@ -129,58 +142,108 @@ const GuessIt = () => {
     console.log("result", getMaskedAnswer(cleanedInput, answer));
   };
 
+  const handleCaptureClick = () => {
+    const node = document.getElementById("capture-area");
+    if (!node) return;
+
+    toPng(node)
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "save-ur-oshi.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.error("Error generating image:", err);
+      });
+  };
+
   return (
     <div className="align-center flex flex-col items-center justify-center p-4">
-      <h1 className="text-xl font-bold italic mb-4">Save ur OShi!!!</h1>
-      <div className="p-2 border border-base-300 rounded-box bg-base-200 space-y-2">
-        <p>
-          <strong>Sisa Percobaanmu :</strong>{" "}
-          {count > 0 ? `⏳ ${count}` : "❌ Habis"}
-        </p>
+      <div className="justify-between flex items-center w-full max-w-sm m-4">
+        <h1 className="title text-xl font-bold italic">Save ur OShi!!!</h1>
+        <div className="p-2 border border-base-300 rounded-box bg-base-200 space-y-2">
+          <p>
+            <strong>{count > 0 ? `⏳ ${count}` : `❌ 0`}</strong>
+          </p>
+        </div>
       </div>
       <form onSubmit={handleSubmit} className="w-full max-w-sm m-4">
         <input
           type="text"
-          placeholder="Ketik nama..."
+          placeholder="Write your guess..."
           className="input input-bordered w-full"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
       </form>
-
       <div className="p-2 border border-base-300 rounded-box bg-base-200 space-y-2">
         <p>
-          <strong>Kalimat cocok :</strong>{" "}
-          {matchedSentence ? `✅ Ya! ${answer}` : `❌ Belum`}
-          <br />
           <strong>{oldLetterIsMatched}</strong>
         </p>
       </div>
+      <button
+        className="btn-end btn text-lg text-warning p-4 mt-5 hidden"
+        onClick={() => window.location.reload()}
+      >
+        reset
+      </button>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <dialog id="my_modal_1" className="modal">
-        <div className="modal-box card p-4">
+        <div className="modal-box">
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-sm btn-circle absolute right-2 top-2">
+            <button
+              className="btn btn-sm btn-circle absolute right-2 top-2 z-2"
+              onClick={() => window.location.reload()}
+            >
               ✕
             </button>
           </form>
-          <figure>
-            <img className="rounded-box" src={image} alt="Shoes" />
-          </figure>
-          <h2 className="card-title m-2">Selamat!</h2>
-          <p>
-            Kamu berhasil menebak nama lengkap <strong>{answer}</strong> dengan
-            sisa langkah <strong>{count}</strong>
-          </p>
-          <div className="card-actions justify-end">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
+          <div
+            id="capture-area"
+            className="card p-8 bg-base-200 text-center space-y-4"
+          >
+            <h2 className="text-4xl font-bold text-error italic">YEAHH !!!!</h2>
+            <figure className="justify-center">
+              <img
+                className="floating-hand w-84 h-auto mt-10"
+                src={image}
+                alt="oshi!!!"
+              />
+            </figure>
+            <p className="text-lg leading-relaxed px-4">
+              You have saved <br />{" "}
+              <strong className="text-info text-xl">{name}</strong> <br />
+              with <strong className="text-error">{count}</strong> left chances
+            </p>
+          </div>
+          <div className="card-actions justify-center mt-4">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn text-lg p-4" onClick={handleCaptureClick}>
+              Save your Saves !!!
+            </button>
           </div>
         </div>
+        <form
+          method="dialog"
+          className="modal-backdrop"
+          onClick={() => window.location.reload()}
+        >
+          {/* if there is a button in form, it will close the modal */}
+          <button>Close</button>
+        </form>
       </dialog>
+      <div className="alert-carefull toast toast-top toast-end hidden">
+        <div className="alert alert-warning">
+          <span>Be Carefull!</span>
+        </div>
+      </div>
+      <div className="alert-end toast toast-top toast-end hidden">
+        <div className="alert alert-error">
+          <span>Ah crap!</span>
+        </div>
+      </div>
     </div>
   );
 };

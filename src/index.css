@@ -2,6 +2,12 @@
 @plugin "daisyui" {
   themes: light --default, abyss --prefersdark, cupcake, valentine, dracula,
     cyberpunk, forest, winter, caramellate;
+  exclude: rootscrollgutter;
+}
+
+.title {
+  font-family: "Pacifico", cursive;
+  font-size: 2rem;
 }
 
 .floating-hand {
@@ -29,5 +35,46 @@
   }
   50% {
     transform: translateY(-1.5px);
+  }
+}
+
+.splash {
+  animation: splash 2s ease-in-out infinite;
+}
+
+@keyframes splash {
+  0% {
+    transform: translateY(-2px);
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* .square {
+  @apply aspect-square;
+} */
+
+.square-lg {
+  width: 300px;
+  height: 300px;
+}
+
+.square {
+  width: 150px;
+  height: 150px;
+}
+
+.square-animation {
+  animation: changecolor 8s linear infinite;
+}
+
+@keyframes changecolor {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 100%;
   }
 }
