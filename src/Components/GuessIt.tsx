@@ -139,7 +139,7 @@ const GuessIt = () => {
   const [name, setName] = useState<string>("");
   const [image, setImage] = useState<string>("");
   const [input, setInput] = useState<string>("");
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(10);
   const [matchedSentence, setMatchedSentence] = useState<boolean>(false);
   const [oldLetterIsMatched, setOldLetterIsMatched] = useState<string>("");
   const [currentLetterIsMatched, setCurrentLetterIsMatched] =
