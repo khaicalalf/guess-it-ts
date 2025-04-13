@@ -9,7 +9,7 @@ const WhatIs = () => {
           type="checkbox"
           className="unclickabled drawer-toggle"
         />
-        <div className="drawer-content">
+        <div className="drawer-content unclickabled">
           {/* Page content here */}
           <label htmlFor="my-drawer-4" className="drawer-button">
             What is this?
