@@ -293,7 +293,7 @@ const GuessIt = () => {
       }
       const imageUrl = await uploadToSupabase(blob);
 
-      const text = encodeURIComponent("I did it!");
+      const text = encodeURIComponent("geregetan ini mini-game wkwk");
       const url = encodeURIComponent("https://save-ur-oshiii.netlify.app/");
       const twitterUrl = `https://twitter.com/intent/tweet?text=${text}%0A${encodeURIComponent(
         imageUrl
