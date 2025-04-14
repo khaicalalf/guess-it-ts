@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { supabase } from "../library/supabase";
 import { toPng } from "html-to-image";
 import feni from "../assets/image/member/frame-feni.png";
 import cigre from "../assets/image/member/frame-gracia.png";
@@ -203,6 +204,23 @@ const GuessIt = () => {
     }
   };
 
+  const uploadToSupabase = async (blob: Blob): Promise<string> => {
+    const fileName = `oshi-${Date.now()}.png`;
+    const { error } = await supabase.storage
+      .from("storage1") // nama bucket kamu
+      .upload(fileName, blob, {
+        contentType: "image/png",
+        upsert: true,
+      });
+
+    if (error) throw error;
+
+    const { data: publicUrlData } = supabase.storage
+      .from("storage1")
+      .getPublicUrl(fileName);
+    return publicUrlData?.publicUrl || "";
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     //mencegah browser reload setelah submit
     e.preventDefault();
@@ -252,7 +270,7 @@ const GuessIt = () => {
     // console.log("result", getMaskedAnswer(cleanedInput, answer));
   };
 
-  const handleCaptureClick = () => {
+  const handleCaptureClick = async () => {
     const node = document.getElementById("capture-area");
     if (!node) return;
 
@@ -266,6 +284,24 @@ const GuessIt = () => {
       .catch((err) => {
         console.error("Error generating image:", err);
       });
+
+    try {
+      const dataUrl = await toPng(node);
+      const blob = await (await fetch(dataUrl)).blob();
+      if (!blob) {
+        throw new Error("Blob is null");
+      }
+      const imageUrl = await uploadToSupabase(blob);
+
+      const text = encodeURIComponent("I did it!");
+      const url = encodeURIComponent("https://save-ur-oshiii.netlify.app/");
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${text}%0A${encodeURIComponent(
+        imageUrl
+      )}%0A${url}`;
+      window.open(twitterUrl, "_blank");
+    } catch (err) {
+      console.error("Error uploading to Supabase:", err);
+    }
   };
 
   return (

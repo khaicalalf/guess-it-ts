@@ -22,8 +22,8 @@ const WhatIs = () => {
             className="drawer-overlay"
           ></label>
 
-          <div className="menu bg-base-200 text-base-content h-full w-80 justify-center items-end overflow-hidden md:w-150">
-            <div className="w-1/2 h-full flex flex-grow flex-row justify-center items-end overflow-hidden md:w-1/3">
+          <div className="menu bg-base-200 text-base-content min-h-full w-90 justify-center items-end md:w-150 ">
+            <div className="w-1/2 min-h-full flex flex-grow flex-row justify-center items-end md:w-1/3 overflow-hidden">
               {Array.from({ length: 6 }, (_, colIndex) =>
                 colIndex % 2 === 0 ? (
                   <div key={colIndex} className="flex flex-col">
@@ -58,43 +58,43 @@ const WhatIs = () => {
               <div className="chat-bubble text-left bg-base-100">
                 <ul className="list">
                   <li className="list-row">
-                    <div className="text-xl font-thin opacity-40 tabular-nums">
+                    <div className="text-base font-thin opacity-40 tabular-nums md:text-xl">
                       ✨
                     </div>
-                    <p className="text-l font-semibold">
+                    <p className="text-sm font-normal md:text-lg font-semibold">
                       there is no members were harmed in the develop, ✌️.
                     </p>
                   </li>
                   <li className="list-row">
-                    <div className="text-xl font-thin opacity-40 tabular-nums">
+                    <div className="text-base font-thin opacity-40 tabular-nums md:text-xl">
                       🎈
                     </div>
-                    <p className="text-l font-semibold">
+                    <p className="text-sm font-normal md:text-lg font-semibold">
                       all photo originally from the member's sns.
                     </p>
                   </li>
                   <li className="list-row">
-                    <div className="text-xl font-thin opacity-40 tabular-nums">
+                    <div className="text-base font-thin opacity-40 tabular-nums md:text-xl">
                       🎗️
                     </div>
-                    <p className="text-l font-semibold">
+                    <p className="text-sm font-normal md:text-lg font-semibold">
                       forgive me if there is a mistake in writing the name.
                     </p>
                   </li>
                   <li className="list-row">
-                    <div className="text-xl font-thin opacity-40 tabular-nums">
+                    <div className="text-base font-thin opacity-40 tabular-nums md:text-xl">
                       🪭
                     </div>
-                    <p className="text-l font-semibold">
+                    <p className="text-sm font-normal md:text-lg font-semibold">
                       I just want to have fun developing a react portfolio
                       project with daisyUI.
                     </p>
                   </li>
                   <li className="list-row">
-                    <div className="text-xl font-thin opacity-40 tabular-nums">
+                    <div className="text-base font-thin opacity-40 tabular-nums md:text-xl">
                       🎡
                     </div>
-                    <p className="text-l font-semibold">
+                    <p className="text-sm font-normal md:text-lg font-semibold">
                       and don't forget to try clicking your screen randomly and
                       see what happens 😉.
                     </p>
