@@ -141,7 +141,7 @@ const GuessIt = () => {
   const [image, setImage] = useState<string>("");
   const [input, setInput] = useState<string>("");
   const [count, setCount] = useState(10);
-  const [matchedSentence, setMatchedSentence] = useState<boolean>(false);
+  //const [matchedSentence, setMatchedSentence] = useState<boolean>();
   const [oldLetterIsMatched, setOldLetterIsMatched] = useState<string>("");
   const [currentLetterIsMatched, setCurrentLetterIsMatched] =
     useState<string>("");
@@ -152,14 +152,27 @@ const GuessIt = () => {
     setAnswer(random.name.toLowerCase());
     setImage(random.img);
     setName(random.name);
-    //console.log("answer", random);
+    console.log("answer", random);
   }, []);
 
   // Cek input setiap kali berubah
   const cleanedInput = input.trim().toLowerCase();
 
+  //cek input untuk 1 kalimat
+  // const sentenceisMatched = (cleanedInput: string, answer: string) => {
+  //   if (cleanedInput === answer) {
+  //     setMatchedSentence(true);
+  //   }
+  // };
+
   //cek input untuk huruf
   const getMaskedAnswer = (cleanedInput: string, answer: string): string => {
+    // if (cleanedInput === answer) {
+    //   setMatchedSentence(true);
+    // }
+    if (cleanedInput.length > 6) {
+      return cleanedInput;
+    }
     const allowedLetters = Array.from(cleanedInput);
 
     const letterisMatched = Array.from(answer)
@@ -184,15 +197,8 @@ const GuessIt = () => {
 
       setCurrentLetterIsMatched(result);
       setOldLetterIsMatched(result); // penting biar jadi old buat input berikutnya
-      return result;
-    }
-  };
 
-  //cek input untuk 1 kalimat
-  const sentenceisMatched = (cleanedInput: string, answer: string) => {
-    if (cleanedInput === answer) {
-      setMatchedSentence(true);
-      return;
+      return result;
     }
   };
 
@@ -204,6 +210,7 @@ const GuessIt = () => {
     }
   };
 
+  //upload to supabase
   const uploadToSupabase = async (blob: Blob): Promise<string> => {
     const fileName = `oshi-${Date.now()}.png`;
     const { error } = await supabase.storage
@@ -221,6 +228,7 @@ const GuessIt = () => {
     return publicUrlData?.publicUrl || "";
   };
 
+  //input guess
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     //mencegah browser reload setelah submit
     e.preventDefault();
@@ -229,8 +237,18 @@ const GuessIt = () => {
     if (!input) return;
     //kosongkan input
     setInput("");
+    //mengurangi nilai percobaan setelah submit
+    setCount((count) => count - 1);
+
+    //cek input
+    if (getMaskedAnswer(cleanedInput, answer) == answer) {
+      //1 kalimat
+      //setMatchedSentence(true);
+      modalWin();
+    }
+
     //memberi notif percobaan
-    if (count === 3) {
+    if (count === 6) {
       const alert = document.querySelector(".alert-carefull") as HTMLDivElement;
       alert.classList.remove("hidden");
     } else if (count <= 1) {
@@ -242,8 +260,20 @@ const GuessIt = () => {
       alert.classList.add("hidden");
     }
 
-    //1 kalimat
-    sentenceisMatched(cleanedInput, answer);
+    //mencegah input lebih dari 5 chara
+    if (input.length > 6) {
+      const alertInputLenght = document.querySelector(
+        ".alert-input"
+      ) as HTMLDivElement;
+      alertInputLenght.classList.remove("hidden");
+
+      return;
+    } else {
+      const alertInputLenght = document.querySelector(
+        ".alert-input"
+      ) as HTMLDivElement;
+      alertInputLenght.classList.add("hidden");
+    }
 
     //cek input untuk huruf
     //getMaskedAnswer(cleanedInput, answer);
@@ -251,21 +281,15 @@ const GuessIt = () => {
     console.log(input.length);
 
     //winner
-    if (matchedSentence) {
-      modalWin();
-      return;
-    } else if (getMaskedAnswer(cleanedInput, answer) == answer) {
-      //1 kalimat
-      setMatchedSentence(true);
-      modalWin();
-      return;
-    }
-    //mengurangi nilai percobaan setelah submit
-    setCount((count) => count - 1);
+    // if (getMaskedAnswer(cleanedInput, answer) == answer) {
+    //   //1 kalimat
+    //   setMatchedSentence(true);
+    //   modalWin();
+    // }
 
     //console log input
     // console.log("count", count);
-    // console.log("newLetterIsMatched", newLetterIsMatched);
+    // console.log("matchedSentence", matchedSentence);
     // console.log("oldletterIsMatched", oldLetterIsMatched);
     // console.log("currentLetterIsMatched", currentLetterIsMatched);
     // console.log("result", getMaskedAnswer(cleanedInput, answer));
@@ -316,7 +340,8 @@ const GuessIt = () => {
         </div>
       </div>
       <p className="alert-input text-sm hidden text-error">
-        the answer must be least than 5 characters
+        sorry, we want to make harder so <br /> you must try with least than 7
+        characters or with full name
       </p>
       <form onSubmit={handleSubmit} className="w-full max-w-sm m-4">
         <input
