@@ -152,7 +152,7 @@ const GuessIt = () => {
     setAnswer(random.name.toLowerCase());
     setImage(random.img);
     setName(random.name);
-    //console.log("answer", random);
+    console.log("answer", random);
   }, []);
 
   // Cek input setiap kali berubah
@@ -173,6 +173,11 @@ const GuessIt = () => {
       setOldLetterIsMatched(letterisMatched);
       setCurrentLetterIsMatched(letterisMatched);
       return letterisMatched;
+    } else if (cleanedInput.length > 4) {
+      getMaskedAnswer(cleanedInput, answer);
+      setOldLetterIsMatched(letterisMatched);
+      setCurrentLetterIsMatched(letterisMatched);
+      return letterisMatched;
     } else {
       let result = "";
       for (let i = 0; i < oldLetterIsMatched.length; i++) {
@@ -190,7 +195,7 @@ const GuessIt = () => {
 
   //cek input untuk 1 kalimat
   const sentenceisMatched = (cleanedInput: string, answer: string) => {
-    if (cleanedInput == answer) {
+    if (cleanedInput === answer) {
       setMatchedSentence(true);
       return;
     }
@@ -242,14 +247,25 @@ const GuessIt = () => {
       alert.classList.add("hidden");
     }
 
-    //mengurangi nilai percobaan setelah submit
-    setCount((count) => count - 1);
+    if (cleanedInput.length > 4) {
+      const alertInputLenght = document.querySelector(
+        ".alert-input"
+      ) as HTMLDivElement;
+      alertInputLenght.classList.remove("hidden");
+    } else {
+      const alertInputLenght = document.querySelector(
+        ".alert-input"
+      ) as HTMLDivElement;
+      alertInputLenght.classList.add("hidden");
+    }
+
+    //1 kalimat
+    sentenceisMatched(cleanedInput, answer);
 
     //cek input untuk huruf
     getMaskedAnswer(cleanedInput, answer);
 
-    //1 kalimat
-    sentenceisMatched(cleanedInput, answer);
+    console.log(input.length);
 
     //winner
     if (matchedSentence) {
@@ -261,6 +277,8 @@ const GuessIt = () => {
       modalWin();
       return;
     }
+    //mengurangi nilai percobaan setelah submit
+    setCount((count) => count - 1);
 
     //console log input
     // console.log("count", count);
@@ -314,6 +332,9 @@ const GuessIt = () => {
           </p>
         </div>
       </div>
+      <p className="alert-input text-sm hidden text-error">
+        the answer must be least than 5 characters
+      </p>
       <form onSubmit={handleSubmit} className="w-full max-w-sm m-4">
         <input
           type="text"
@@ -380,14 +401,14 @@ const GuessIt = () => {
           <button>Close</button>
         </form>
       </dialog>
-      <div className="alert-carefull toast toast-top toast-end hidden">
+      <div className="alert-carefull toast toast-top toast-center hidden">
         <div className="alert alert-warning">
           <span>
             <strong>Be Carefull!</strong>
           </span>
         </div>
       </div>
-      <div className="alert-end toast toast-top toast-end hidden">
+      <div className="alert-end toast toast-top toast-center hidden">
         <div className="alert alert-error">
           <span>
             <strong>Ah crap!</strong>
