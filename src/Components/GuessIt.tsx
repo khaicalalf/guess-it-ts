@@ -173,11 +173,6 @@ const GuessIt = () => {
       setOldLetterIsMatched(letterisMatched);
       setCurrentLetterIsMatched(letterisMatched);
       return letterisMatched;
-    } else if (cleanedInput.length > 4) {
-      getMaskedAnswer(cleanedInput, answer);
-      setOldLetterIsMatched(letterisMatched);
-      setCurrentLetterIsMatched(letterisMatched);
-      return letterisMatched;
     } else {
       let result = "";
       for (let i = 0; i < oldLetterIsMatched.length; i++) {
@@ -247,23 +242,11 @@ const GuessIt = () => {
       alert.classList.add("hidden");
     }
 
-    if (cleanedInput.length > 4) {
-      const alertInputLenght = document.querySelector(
-        ".alert-input"
-      ) as HTMLDivElement;
-      alertInputLenght.classList.remove("hidden");
-    } else {
-      const alertInputLenght = document.querySelector(
-        ".alert-input"
-      ) as HTMLDivElement;
-      alertInputLenght.classList.add("hidden");
-    }
-
     //1 kalimat
     sentenceisMatched(cleanedInput, answer);
 
     //cek input untuk huruf
-    getMaskedAnswer(cleanedInput, answer);
+    //getMaskedAnswer(cleanedInput, answer);
 
     console.log(input.length);
 
