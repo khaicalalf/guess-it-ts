@@ -152,7 +152,7 @@ const GuessIt = () => {
     setAnswer(random.name.toLowerCase());
     setImage(random.img);
     setName(random.name);
-    console.log("answer", random);
+    //console.log("answer", random);
   }, []);
 
   // Cek input setiap kali berubah
