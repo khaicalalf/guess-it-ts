@@ -17,7 +17,7 @@ import indah from "../assets/image/member/frame-indah.png";
 import atin from "../assets/image/member/frame-atin.png";
 import meng from "../assets/image/member/frame-meng.png";
 import manda from "../assets/image/member/frame-manda.png";
-import indira from "../assets/image/member/frame-indira.png";
+import indira from "../assets/image/member/frame-indira-1.png";
 import lia from "../assets/image/member/frame-lia.png";
 import ellay from "../assets/image/member/frame-ellay.png";
 import lyn from "../assets/image/member/frame-lyn.png";
@@ -32,7 +32,7 @@ import daisy from "../assets/image/member/frame-daisy.png";
 import gendis from "../assets/image/member/frame-gendis.png";
 import icel from "../assets/image/member/frame-icel.png";
 import grace from "../assets/image/member/frame-grace.png";
-import thya from "../assets/image/member/frame-thya.png";
+import thya from "../assets/image/member/frame-thya-1.png";
 import mich from "../assets/image/member/frame-mich.png";
 import aralie from "../assets/image/member/frame-aralie.png";
 import delynn from "../assets/image/member/frame-delynn.png";
@@ -152,7 +152,7 @@ const GuessIt = () => {
     setAnswer(random.name.toLowerCase());
     setImage(random.img);
     setName(random.name);
-    console.log("answer", random);
+    //console.log("answer", random);
   }, []);
 
   // Cek input setiap kali berubah
@@ -245,6 +245,7 @@ const GuessIt = () => {
       //1 kalimat
       //setMatchedSentence(true);
       modalWin();
+      return;
     }
 
     //memberi notif percobaan
@@ -260,7 +261,7 @@ const GuessIt = () => {
       alert.classList.add("hidden");
     }
 
-    //mencegah input lebih dari 5 chara
+    //alert notif input lebih dari 5 chara
     if (input.length > 6) {
       const alertInputLenght = document.querySelector(
         ".alert-input"
