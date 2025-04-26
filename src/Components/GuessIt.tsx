@@ -141,6 +141,7 @@ const GuessIt = () => {
   const [image, setImage] = useState<string>("");
   const [input, setInput] = useState<string>("");
   const [count, setCount] = useState(10);
+  const [displayName, setDisplayName] = useState<string>("");
   //const [matchedSentence, setMatchedSentence] = useState<boolean>();
   const [oldLetterIsMatched, setOldLetterIsMatched] = useState<string>("");
   const [currentLetterIsMatched, setCurrentLetterIsMatched] =
@@ -149,9 +150,17 @@ const GuessIt = () => {
   // Pilih 1 nama secara acak saat pertama render
   useEffect(() => {
     const random = names[Math.floor(Math.random() * names.length)];
-    setAnswer(random.name.toLowerCase());
+
     setImage(random.img);
     setName(random.name);
+    const randomName = Array.from(random.name)
+      .map((char) => {
+        if (char === " ") return " "; // tetap tampilkan spasi
+        return "*";
+      })
+      .join("");
+    setAnswer(random.name.toLowerCase());
+    setDisplayName(randomName);
     //console.log("answer", random);
   }, []);
 
@@ -208,6 +217,13 @@ const GuessIt = () => {
     if (modal) {
       modal.showModal();
     }
+  };
+
+  const start = () => {
+    const start = document.querySelector(".start") as HTMLDivElement;
+    start.classList.add("hidden");
+    const play = document.querySelector(".play") as HTMLDivElement;
+    play.classList.remove("hidden");
   };
 
   //upload to supabase
@@ -344,7 +360,14 @@ const GuessIt = () => {
         sorry, we want to make harder so <br /> you must try with least than 7
         characters or with full name
       </p>
-      <form onSubmit={handleSubmit} className="w-full max-w-sm m-4">
+      <p>{displayName}</p>
+      <button
+        className="start btn text-lg bg-primary text-base-200 p-4 my-5"
+        onClick={start}
+      >
+        start
+      </button>
+      <form onSubmit={handleSubmit} className="play w-full max-w-sm m-4 hidden">
         <input
           type="text"
           placeholder="Write your guess..."
